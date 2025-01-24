@@ -1,89 +1,65 @@
-import React, { createContext, useContext, useState } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Corrected import
-import API from '../hooks/Api';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext({
-  user: null,
-  userProfile: null,
-  tokenInfo: null, // Will hold id_token, access_token, and expires_in
-  login: (tokenData) => {},
+  email: '',
+  userName: '',
+  role: '',
+  accessToken: '',
+  login: (token, email, userName, role) => {},
   logout: () => {},
 });
 
-export const AuthProvider = (props) => {
-  // Retrieve user and token information from sessionStorage if available
-  const [user, setUser] = useState(
-    sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null
-  );
-  const [userProfile, setUserProfile] = useState(
-    sessionStorage.getItem('userProfile') ? JSON.parse(sessionStorage.getItem('userProfile')) : null
-  );
-  const [tokenInfo, setTokenInfo] = useState(
-    sessionStorage.getItem('tokenInfo') ? JSON.parse(sessionStorage.getItem('tokenInfo')) : null
-  );
+export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
 
-  // Function to handle user login
-  const login = async ({ idToken, accessToken, expiresIn }) => {
-    try {
-      // Decode the JWT token to get user information
-      const decodedToken = jwtDecode(idToken);
-      const userData = {
-        email: decodedToken.email,
-        username: decodedToken['cognito:username'], // Adjust key as per your token structure
-        role: decodedToken['role'] || '', // If role is available in the token
-      };
+  const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || '');
+  const [email, setEmail] = useState(localStorage.getItem('email') || '');
+  const [userName, setUserName] = useState(localStorage.getItem('userName') || '');
+  const [role, setRole] = useState(localStorage.getItem('role') || '');
 
-      const tokenData = {
-        idToken,
-        accessToken,
-        expiresIn,
-      };
+  useEffect(() => {
+    // Redirect to /user only if the user is not on a public route
+    const token = localStorage.getItem('accessToken');
+    const publicRoutes = ['/', '/signin', '/signup', '/forgot-password', '/verify-email'];
+    const currentPath = window.location.pathname;
 
-      // Save user and token information to sessionStorage
-      sessionStorage.setItem('user', JSON.stringify(userData));
-      sessionStorage.setItem('tokenInfo', JSON.stringify(tokenData));
-
-      // Set state with user and token data
-      setUser(userData);
-      setTokenInfo(tokenData);
-
-      await fetchUserProfile(userData.username);
-    } catch (error) {
-      console.error('Error decoding token:', error);
+    if (token && !publicRoutes.includes(currentPath)) {
+      setAccessToken(token);
+      setEmail(localStorage.getItem('email'));
+      setUserName(localStorage.getItem('userName'));
+      setRole(localStorage.getItem('role'));
+      navigate('/user', { replace: true }); // Avoid back navigation
     }
+  }, [navigate]);
+
+  const login = (token, email, userName, role) => {
+    localStorage.setItem('accessToken', token);
+    localStorage.setItem('email', email);
+    localStorage.setItem('userName', userName);
+    localStorage.setItem('role', role);
+    setAccessToken(token);
+    setEmail(email);
+    setUserName(userName);
+    setRole(role);
+    navigate('/user', { replace: true }); // Replace history to block back navigation
   };
 
-  const fetchUserProfile = async (username) => {
-    try {
-      const response = await API.get(`https://jobportalsdpps18-s15-04-90053-31880.up.railway.app/v1/api/users/getDetails/${username}`);
-      const profileData = response.data;
-
-      // Save user profile to sessionStorage
-      sessionStorage.setItem('userProfile', JSON.stringify(profileData));
-
-      // Set user profile in state
-      setUserProfile(profileData);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  };
-
-  // Function to handle user logout
   const logout = () => {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('userProfile');
-    sessionStorage.removeItem('tokenInfo');
-    setUserProfile(null);
-    setUser(null);
-    setTokenInfo(null);
+    localStorage.clear();
+    setAccessToken('');
+    setEmail('');
+    setUserName('');
+    setRole('');
+    navigate('/signin', { replace: true }); // Replace history on logout
   };
 
   return (
-    <AuthContext.Provider value={{ user, userProfile, tokenInfo, login, logout }}>
-      {props.children}
+    <AuthContext.Provider value={{ accessToken, email, userName, role, login, logout }}>
+      {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook to use AuthContext
+
 export const useAuth = () => useContext(AuthContext);

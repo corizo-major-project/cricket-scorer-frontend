@@ -39,7 +39,6 @@
 
 .app-container {
   background-color: #f4f2ee;
-  min-height: auto;
   display: flex;
   flex-direction: column;
 }
@@ -80,3 +79,26 @@ html, body {
   background-color: red;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+
+@keyframes comet {
+  0% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.loader {
+  height: 8px;
+  width: 8px;
+  background-color: #7620ff;
+  border-radius: 50%;
+  animation: comet 1s infinite ease-in-out;
+  position: relative;
+}
+

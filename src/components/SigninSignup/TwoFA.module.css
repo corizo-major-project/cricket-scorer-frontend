@@ -1,0 +1,22 @@
+/* In TwoFA.module.css */
+@keyframes comet {
+    0% {
+      transform: translateX(0%);
+    }
+    50% {
+      transform: translateX(50%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  .loader {
+    height: 8px;
+    width: 8px;
+    background-color: #7620ff;
+    border-radius: 50%;
+    animation: comet 1s infinite ease-in-out;
+    position: relative;
+  }
+  

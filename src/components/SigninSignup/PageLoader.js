@@ -116,7 +116,7 @@ const PageLoader = ({ childComponent: ChildComponent }) => {
                                     justifyContent: "center",
                                     alignItems: "center",
                                     padding: 3,
-                                    backgroundColor: isAnimating ? "black" : "white",
+                                    backgroundColor: isAnimating ? "white" : "white",
                                     backgroundImage: isAnimating
                                         ? "url('https://via.placeholder.com/1920x1080')"
                                         : "none",
@@ -163,7 +163,7 @@ const PageLoader = ({ childComponent: ChildComponent }) => {
                                     justifyContent: "center",
                                     alignItems: "center",
                                     padding: 3,
-                                    backgroundColor: isAnimating ? "black" : "white",
+                                    backgroundColor: isAnimating ? "white" : "white",
                                     backgroundImage: isAnimating
                                         ? "url('https://via.placeholder.com/1920x1080')"
                                         : "none",
