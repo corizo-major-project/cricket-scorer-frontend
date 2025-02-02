@@ -1,6 +1,6 @@
 import axios from "axios";
-// import API from "../hooks/Api";
-// import { useNavigate } from "react-router-dom";
+import API from "../hooks/Api";
+import { Navigate } from "react-router-dom";
 // import { useEffect } from "react";
 
 
@@ -81,6 +81,65 @@ export const changePassword = async (changepassword) => {
     try {
         const changepasswordurl = url + `/v1/api/auth/changePassword`;
         const response = await axios.patch(changepasswordurl, changepassword);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+// PLAYER API's
+export const getAllPlayers = async (pageNo, pageSize) => {
+    try {
+        const getAllplayersurl = url + `/v1/api/player/getAllPlayers?page_size=${pageNo}&page_no=${pageSize}`;
+        const response = await API.get(getAllplayersurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const getPlayerDetails = async (playerId) => {
+    try {
+        const getPlayerDetailsurl = url + `/v1/api/player/getPlayerDetails?player_id=${playerId}`;
+        const response = await API.get(getPlayerDetailsurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const getPlayerDetailsUserName = async () => {
+    try {
+        const getPlayerDetailsurl = url + `/v1/api/player/getPlayerDetailsUserName`;
+        const response = await API.get(getPlayerDetailsurl);
+        if(response.status === 404) {
+            Navigate("/user/create-profile")
+        }
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const getPlayerSearch = async (searchQuery) => {
+    try {
+        const getPlayerSearchurl = url + `/v1/api/player/searchPlayers?search_query=${searchQuery}`;
+        const response = await API.get(getPlayerSearchurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const createPlayer = async (playerPayload) => {
+    try {
+        const createPlayerurl = url + `/v1/api/player/addPlayer`;
+        const response = await API.post(createPlayerurl, playerPayload);
         return response;
     }
     catch(err) {

@@ -6,8 +6,15 @@ import CloseIcon from "../../../../assets/svg/CloseIcon";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../../../token/AuthContext";
 
 export default function Sidebar({ sidebarOpen, toggleSidebar }) {
+    const { logout } = useAuth();
+    const handleLogout = () => {
+        logout();
+        toggleSidebar(!sidebarOpen)
+    }
+    // PLAYERS, TEAMS, MY MATCHES
     return (
         <Wrapper className="animate darkBg" sidebarOpen={sidebarOpen}>
             <SidebarHeader className="flexSpaceCenter">
@@ -60,6 +67,48 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
                 </li>
                 <li className="semiBold font15 pointer">
                     <NavLink
+                        to="/user/view-players"
+                        onClick={() => toggleSidebar(!sidebarOpen)}
+                        style={({ isActive }) => ({
+                            padding: "10px 15px",
+                            textDecoration: "none",
+                            color: isActive ? "blue" : "white",
+                            borderBottom: isActive ? "2px solid blue" : "none",
+                        })}
+                    >
+                        PLAYERS
+                    </NavLink>
+                </li>
+                <li className="semiBold font15 pointer">
+                    <NavLink
+                        to="/user/view-teams"
+                        onClick={() => toggleSidebar(!sidebarOpen)}
+                        style={({ isActive }) => ({
+                            padding: "10px 15px",
+                            textDecoration: "none",
+                            color: isActive ? "blue" : "white",
+                            borderBottom: isActive ? "2px solid blue" : "none",
+                        })}
+                    >
+                        TEAMS
+                    </NavLink>
+                </li>
+                <li className="semiBold font15 pointer">
+                    <NavLink
+                        to="/user/my-matches"
+                        onClick={() => toggleSidebar(!sidebarOpen)}
+                        style={({ isActive }) => ({
+                            padding: "10px 15px",
+                            textDecoration: "none",
+                            color: isActive ? "blue" : "white",
+                            borderBottom: isActive ? "2px solid blue" : "none",
+                        })}
+                    >
+                        MY MATCHES
+                    </NavLink>
+                </li>
+                <li className="semiBold font15 pointer">
+                    <NavLink
                         to="/user/contact-us"
                         onClick={() => toggleSidebar(!sidebarOpen)}
                         style={({ isActive }) => ({
@@ -90,8 +139,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
                 </li>
                 <li className="semiBold font15 pointer flexCenter">
                 <NavLink
-                        to="/logout"
-                        onClick={() => toggleSidebar(!sidebarOpen)}
+                        onClick={() => handleLogout()}
                         style={({ isActive }) => ({
                             padding: "10px 15px",
                             textDecoration: "none",

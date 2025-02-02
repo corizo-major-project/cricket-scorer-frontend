@@ -281,7 +281,13 @@ const Signup = ({ onNavigate }) => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ marginTop: 2 }}
+                sx={{
+                    marginTop: 2,
+                    backgroundColor: '#363e45',
+                    '&:hover': {
+                      backgroundColor: '#4a5561', // Hover effect
+                    },
+                  }}
                 onClick={handleSignup}
             >
                 Signup

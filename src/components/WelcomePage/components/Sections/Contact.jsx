@@ -89,7 +89,7 @@ export default function Contact() {
                   required
                 />
                 <SumbitWrapper className="flex">
-                  <ButtonInput type="submit" value="Send Message" className="pointer animate radius8" style={{ backgroundColor: "#7620ff" }} />
+                  <ButtonInput type="submit" value="Send Message" className="pointer animate radius8" style={{ backgroundColor: "#363e45" }} />
                 </SumbitWrapper>
               </Form>
             </div>

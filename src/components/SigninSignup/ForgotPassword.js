@@ -135,7 +135,7 @@ const ForgotPassword = () => {
                         xs={12}
                         md={5}
                         sx={{
-                            backgroundColor: "#7620ff",
+                            backgroundColor: "#363e45",
                             color: "white",
                             display: "flex",
                             flexDirection: "column",
@@ -198,11 +198,12 @@ const ForgotPassword = () => {
                                         fullWidth
                                         onClick={handleGetOTP}
                                         sx={{
-                                            backgroundColor: "primary.main",
-                                            "&:hover": {
-                                                backgroundColor: "primary.dark",
+                                            marginTop: 2,
+                                            backgroundColor: '#363e45',
+                                            '&:hover': {
+                                              backgroundColor: '#4a5561', // Hover effect
                                             },
-                                        }}
+                                          }}
                                         disabled={isOtpVerified}
                                     >
                                         Get OTP
@@ -237,11 +238,11 @@ const ForgotPassword = () => {
                                     onClick={handleVerifyOtp}
                                     sx={{
                                         marginTop: 2,
-                                        backgroundColor: "primary.main",
-                                        "&:hover": {
-                                            backgroundColor: "primary.dark",
+                                        backgroundColor: '#363e45',
+                                        '&:hover': {
+                                          backgroundColor: '#4a5561', // Hover effect
                                         },
-                                    }}
+                                      }}
                                     fullWidth
                                 >
                                     Verify OTP
@@ -275,11 +276,11 @@ const ForgotPassword = () => {
                                         onClick={handleChangePassword}
                                         sx={{
                                             marginTop: 2,
-                                            backgroundColor: "primary.main",
-                                            "&:hover": {
-                                                backgroundColor: "primary.dark",
+                                            backgroundColor: '#363e45',
+                                            '&:hover': {
+                                              backgroundColor: '#4a5561', // Hover effect
                                             },
-                                        }}
+                                          }}
                                         fullWidth
                                     >
                                         Change Password

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../token/AuthContext';
 
 export const API = axios.create({
@@ -12,7 +11,7 @@ export const API = axios.create({
 
 API.interceptors.request.use(
     function (config) {
-        const accessToken = sessionStorage.getItem('accessToken');
+        const accessToken = localStorage.getItem('accessToken');
 
         // Add idToken to Authorization header if available
         config.headers = {
@@ -27,20 +26,13 @@ API.interceptors.request.use(
 );
 
 API.interceptors.response.use(
-    function (response) {
-        return response;
-    }
-    ,
-    function (error) {
+    (response) => response, // Simply return the response
+    (error) => {
         if (error.response && error.response.status === 401) {
-            // Clear the session and redirect
-            const navigate = useNavigate();
+            // Call the logout handler if available
             const { logout } = useAuth();
-
-            logout(); // Call the context's logout function
-            navigate('/'); // Redirect to the home page
+            logout();
         }
-
         return Promise.reject(error);
     }
 );

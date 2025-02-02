@@ -9,10 +9,14 @@ import Backdrop from "../../../WelcomePage/components/Elements/Backdrop";
 import Logo from "../../../../images/logo.jpg";
 import BurgerIcon from "../../../../assets/svg/BurgerIcon";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAuth } from "../../../../token/AuthContext";
 
 export default function TopNavbar() {
+  const { userName } = useAuth();
+  const { logout } = useAuth();
   const [y, setY] = useState(window.scrollY);
   const [sidebarOpen, toggleSidebar] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", () => setY(window.scrollY));
@@ -70,6 +74,45 @@ export default function TopNavbar() {
             </li>
             <li className="semiBold font15 pointer">
               <NavLink
+                to="/user/view-players"
+                style={({ isActive }) => ({
+                  padding: "10px 15px",
+                  textDecoration: "none",
+                  color: isActive ? "blue" : "inherit",
+                  borderBottom: isActive ? "2px solid blue" : "none",
+                })}
+              >
+                PLAYERS
+              </NavLink>
+            </li>
+            <li className="semiBold font15 pointer">
+              <NavLink
+                to="/user/view-teams"
+                style={({ isActive }) => ({
+                  padding: "10px 15px",
+                  textDecoration: "none",
+                  color: isActive ? "blue" : "inherit",
+                  borderBottom: isActive ? "2px solid blue" : "none",
+                })}
+              >
+                TEAMS
+              </NavLink>
+            </li>
+            <li className="semiBold font15 pointer">
+              <NavLink
+                to="/user/my-matches"
+                style={({ isActive }) => ({
+                  padding: "10px 15px",
+                  textDecoration: "none",
+                  color: isActive ? "blue" : "inherit",
+                  borderBottom: isActive ? "2px solid blue" : "none",
+                })}
+              >
+                MY MATCHES
+              </NavLink>
+            </li>
+            <li className="semiBold font15 pointer">
+              <NavLink
                 to="/user/contact-us"
                 style={({ isActive }) => ({
                   padding: "10px 15px",
@@ -83,10 +126,24 @@ export default function TopNavbar() {
             </li>
           </UlWrapper>
           <UlWrapperRight className="flexNullCenter">
-            <li className="semiBold font15 pointer">
-              <a href="/user/view-profile" style={{ padding: "10px 30px 10px 0" }}>
-                <AccountCircleIcon fontSize="large"/>
-              </a>
+            <li className="semiBold font15 pointer" style={{ position: "relative" }}>
+              <ProfileIcon onClick={() => setDropdownOpen(!dropdownOpen)}>
+                <AccountCircleIcon fontSize="large" />
+              </ProfileIcon>
+              {dropdownOpen && (
+                <DropdownMenu>
+                  <p className="user-name">{userName}</p>
+                  <Link to="/user/view-profile" className="profile-link">
+                    Profile
+                  </Link>
+                  <Link to="/user/view-profile" className="profile-link">
+                    Create Team
+                  </Link>
+                  <button className="logout-button" onClick={logout}>
+                    Logout
+                  </button>
+                </DropdownMenu>
+              )}
             </li>
           </UlWrapperRight>
         </NavInner>
@@ -126,6 +183,57 @@ const UlWrapper = styled.ul`
 const UlWrapperRight = styled.ul`
   @media (max-width: 760px) {
     display: none;
+  }
+`;
+
+const ProfileIcon = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  text-align: left;
+
+  .user-name {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .profile-link {
+    font-size: 14px;
+    font-weight: bold;
+    color: #363e45;
+    text-decoration: none;
+    padding: 10px;
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+
+  .logout-button {
+    font-size: 14px;
+    background: none;
+    border: none;
+    color: red;
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    &:hover {
+      background: #f5f5f5;
+    }
   }
 `;
 

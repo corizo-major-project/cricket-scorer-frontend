@@ -1,13 +1,9 @@
-import React from 'react'; // Update with the actual path
-import { useAuth } from '../../../../token/AuthContext';
+import React from 'react'; // Update with the actual pat
 
 const Home = () => {
-  const { logout } = useAuth();
-
   return (
     <div style={{ margin: '70px' }}>
       <h1>Home</h1>
-      <button onClick={logout}>Logout</button>
     </div>
   );
 };

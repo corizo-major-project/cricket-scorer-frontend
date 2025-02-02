@@ -159,7 +159,7 @@ const TwoFA = () => {
           >
             <Box
               sx={{
-                backgroundColor: "#7620ff",
+                backgroundColor: "#363e45",
                 color: "white",
                 display: "flex",
                 flexDirection: "column",

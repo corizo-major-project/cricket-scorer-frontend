@@ -6,7 +6,8 @@ export const AuthContext = createContext({
   userName: '',
   role: '',
   accessToken: '',
-  login: (token, email, userName, role) => {},
+  user: {},
+  login: (token, email, userName, role, user) => {},
   logout: () => {},
 });
 
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [userName, setUserName] = useState(localStorage.getItem('userName') || '');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
+  const [user, setUser] = useState(localStorage.getItem('user') || {});
 
   useEffect(() => {
     // Redirect to /user only if the user is not on a public route
@@ -24,25 +26,28 @@ export const AuthProvider = ({ children }) => {
     const publicRoutes = ['/', '/signin', '/signup', '/forgot-password', '/verify-email'];
     const currentPath = window.location.pathname;
 
-    if (token && !publicRoutes.includes(currentPath)) {
+    if (token && currentPath.startsWith('/user') && !publicRoutes.includes(currentPath)) {
       setAccessToken(token);
       setEmail(localStorage.getItem('email'));
       setUserName(localStorage.getItem('userName'));
       setRole(localStorage.getItem('role'));
-      navigate('/user', { replace: true }); // Avoid back navigation
+      setUser(localStorage.getItem('user'));
+      navigate(currentPath, { replace: true }); 
     }
   }, [navigate]);
 
-  const login = (token, email, userName, role) => {
+  const login = (token, email, userName, role, user) => {
     localStorage.setItem('accessToken', token);
     localStorage.setItem('email', email);
     localStorage.setItem('userName', userName);
     localStorage.setItem('role', role);
+    localStorage.setItem('user', user);
     setAccessToken(token);
     setEmail(email);
     setUserName(userName);
     setRole(role);
-    navigate('/user', { replace: true }); // Replace history to block back navigation
+    setUser(user);
+    navigate('/user', { replace: true }); 
   };
 
   const logout = () => {
@@ -51,11 +56,12 @@ export const AuthProvider = ({ children }) => {
     setEmail('');
     setUserName('');
     setRole('');
-    navigate('/signin', { replace: true }); // Replace history on logout
+    setUser({});
+    navigate('/signin', { replace: true }); 
   };
 
   return (
-    <AuthContext.Provider value={{ accessToken, email, userName, role, login, logout }}>
+    <AuthContext.Provider value={{ accessToken, email, userName, role, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

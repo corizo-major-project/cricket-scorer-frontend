@@ -56,7 +56,7 @@ const Signin = ({ onNavigate }) => {
       } else if (response?.status === 401) {
         setErrorMessage("Invalid Details");
         return;
-      } 
+      }
       console.log("Current error message:", errorMessage);
 
       if (response?.status === 200) {
@@ -66,14 +66,12 @@ const Signin = ({ onNavigate }) => {
         localStorage.setItem('email', decodedToken.email);
         localStorage.setItem('role', decodedToken.role);
         localStorage.setItem('userName', decodedToken.userName);
-        login(token, decodedToken.email, decodedToken.userName, decodedToken.role);
+        login(token, decodedToken.email, decodedToken.userName, decodedToken.role, decodedToken.user);
         navigate("/user", { replace: true });
       } else if (response?.status === 202) {
-        navigate("/verify-email", { state: { email: response.data.email} });
+        navigate("/verify-email", { state: { email: response.data.email } });
       }
     } catch (error) {
-      //console.log("Error Object:", error)
-      // Handle network or unexpected errors
       setErrorMessage("Unable to connect to the server. Please try again.");
 
       console.log("Current error message:", errorMessage);
@@ -115,7 +113,13 @@ const Signin = ({ onNavigate }) => {
         variant="contained"
         color="primary"
         fullWidth
-        sx={{ marginTop: 2 }}
+        sx={{
+          marginTop: 2,
+          backgroundColor: '#363e45',
+          '&:hover': {
+            backgroundColor: '#4a5561', // Hover effect
+          },
+        }}
         onClick={handleSubmit}
       >
         Login
