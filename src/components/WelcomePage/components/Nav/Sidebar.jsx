@@ -33,7 +33,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
             style={{ padding: "10px 15px" }}
             to="home"
             spy={true}
-            smooth={true}
+            smooth="true"
             offset={-60}
           >
             Home
@@ -47,7 +47,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
             style={{ padding: "10px 15px" }}
             to="services"
             spy={true}
-            smooth={true}
+            smooth="true"
             offset={-60}
           >
             Services
@@ -61,7 +61,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
             style={{ padding: "10px 15px" }}
             to="projects"
             spy={true}
-            smooth={true}
+            smooth="true"
             offset={-60}
           >
             Projects
@@ -75,7 +75,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
             style={{ padding: "10px 15px" }}
             to="blog"
             spy={true}
-            smooth={true}
+            smooth="true"
             offset={-60}
           >
             Blog
@@ -89,7 +89,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
             style={{ padding: "10px 15px" }}
             to="pricing"
             spy={true}
-            smooth={true}
+            smooth="true"
             offset={-60}
           >
             Pricing
@@ -103,7 +103,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
             style={{ padding: "10px 15px" }}
             to="contact"
             spy={true}
-            smooth={true}
+            smooth="true"
             offset={-60}
           >
             Contact

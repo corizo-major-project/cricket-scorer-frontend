@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Avatar, Typography, useMediaQuery, Container, Divider, Tabs, Tab } from "@mui/material";
+import { Box, Avatar, Typography, useMediaQuery, Container, Divider, Tabs, Tab, CircularProgress, IconButton } from "@mui/material";
 import { styled } from "@mui/system";
-import { useNavigate, useParams } from 'react-router-dom';
-import { getPlayerDetails, getPlayerDetailsUserName } from '../../apis/axiosRequest';
+import { useParams } from 'react-router-dom';
+import { getTeam } from '../../apis/axiosRequest';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import PlayerStats from './PlayerStats';
-import PlayerProfile from './PlayerProfile';
-import CreatePlayer from './CreatePlayer';
-import TeamsTab from './TeamsTab';
+import dayjs from 'dayjs';
+import TeamMembers from './TeamMembers';
+import TeamStats from './TeamStats';
+import TeamProfile from './TeamProfile';
+import { useAuth } from '../../token/AuthContext';
+import EditIcon from '@mui/icons-material/Edit';
+import EditTeamDialog from './EditTeamDialog';
 
 function stringAvatar(name) {
     if (!name) return {};
@@ -111,13 +114,22 @@ function a11yProps(index) {
 }
 
 
-const PlayerDetails = () => {
-    const { id } = useParams();
+const TeamDetails = () => {
+    const { userName } = useAuth();
+    const { teamName } = useParams();
     const isMobile = useMediaQuery("(max-width:600px)");
     const [value, setValue] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
-    const [playerDetails, setPlayerDetails] = useState({});
-    const navigate = useNavigate();
+    const [teamDetails, setTeamDetails] = useState({});
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -143,33 +155,26 @@ const PlayerDetails = () => {
     }, []);
 
     useEffect(() => {
-        const getPlayerDetailsFun = async () => {
+        const getTeamDetailsFun = async () => {
             try {
-                const currentPath = window.location.pathname;
-                if (currentPath.startsWith('/user/view-player')) {
-                    const response = await getPlayerDetails(id);
-                    setPlayerDetails(response.data);
-                }
-                else if (currentPath.startsWith('/user/view-profile')) {
-                    const response = await getPlayerDetailsUserName();
-                    if (response.status === 404) {
-                        navigate("/user/create-player")
-                    }
-                    setPlayerDetails(response.data)
-                }
-
+                const response = await getTeam(teamName);
+                setTeamDetails(response.data.team);
             } catch (error) {
-                setPlayerDetails({});
+                setTeamDetails({});
             }
         }
 
-        getPlayerDetailsFun();
+        getTeamDetailsFun();
         // eslint-disable-next-line
-    }, [id]);
+    }, [teamName]);
 
-    if (!playerDetails) {
+    if (!setTeamDetails) {
         return (
-            <CreatePlayer />
+            <div style={{ backgroundColor: '#f4f2ee' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                    <CircularProgress />
+                </Box>
+            </div>
         )
     }
 
@@ -179,11 +184,21 @@ const PlayerDetails = () => {
                 <FlexContainer maxWidth="lg">
                     {/* Left Section */}
                     <LeftSection>
-                        <Avatar {...stringAvatar(playerDetails.name)} />
+                        <Avatar {...stringAvatar(teamDetails.teamName)} />
                         <Box>
-                            <Typography variant="h4" sx={{ color: "white" }}><b>{playerDetails.name}</b></Typography>
+                            <Box display="flex" alignItems="center" justifyContent="space-between">
+                                <Typography variant="h4" sx={{ color: "white", fontWeight: "bold" }}>
+                                    {teamDetails.teamName}
+                                </Typography>
+                                {userName === teamDetails.userName && (
+                                    <IconButton onClick={handleClickOpen}>
+                                        <EditIcon sx={{ color: "white", ml: 1 }} />
+                                    </IconButton>
+                                )}
+                                <EditTeamDialog open={open} handleClose={handleClose} teamDetails={teamDetails} />
+                            </Box>
                             <Typography variant="body1" color="white">
-                                {playerDetails.location}
+                                {teamDetails.location}
                             </Typography>
                             <Divider sx={{
                                 mt: 2,
@@ -193,7 +208,7 @@ const PlayerDetails = () => {
                                 borderStyle: 'dashed',
                             }} />
                             <Typography variant="body1" color="white">
-                                {playerDetails.roleAsBatsman} | {playerDetails.roleAsBowler}
+                                Since: {teamDetails.createdAt ? dayjs(teamDetails.createdAt).utc().format("DD MMM YYYY") : "N/A"}
                             </Typography>
 
                         </Box>
@@ -202,17 +217,17 @@ const PlayerDetails = () => {
                     {!isMobile && (
                         <RightSection>
                             <StatBox>
-                                <Typography variant="h6"><b>{playerDetails.matchesPlayed ?? "NaN"}</b></Typography>
+                                <Typography variant="h6"><b>{teamDetails?.stats?.matches ?? "NaN"}</b></Typography>
                                 <Typography variant="subtitle1">Matches</Typography>
 
                             </StatBox>
                             <StatBox>
-                                <Typography variant="h6"><b>{playerDetails?.totalRunsScored ?? "NaN"}</b></Typography>
-                                <Typography variant="subtitle1">Runs</Typography>
+                                <Typography variant="h6"><b>{teamDetails?.stats?.won ?? "NaN"}</b></Typography>
+                                <Typography variant="subtitle1">Won</Typography>
                             </StatBox>
                             <StatBox>
-                                <Typography variant="h6"><b>{playerDetails?.totalWicketsTaken ?? "NaN"}</b></Typography>
-                                <Typography variant="subtitle1">Wickets</Typography>
+                                <Typography variant="h6"><b>{teamDetails?.stats?.lost ?? "NaN"}</b></Typography>
+                                <Typography variant="subtitle1">Lost</Typography>
                             </StatBox>
                         </RightSection>
                     )}
@@ -254,9 +269,9 @@ const PlayerDetails = () => {
                             },
                         }}
                     >
-                        <Tab label="Matches" {...a11yProps(0)} />
-                        <Tab label="STATS" {...a11yProps(1)} />
-                        <Tab label="TEAMS" {...a11yProps(2)} />
+                        <Tab label="MEMBERS" {...a11yProps(0)} />
+                        <Tab label="MATCHES" {...a11yProps(1)} />
+                        <Tab label="STATS" {...a11yProps(2)} />
                         <Tab label="PROFILE" {...a11yProps(3)} />
                     </Tabs>
                 </Box>
@@ -264,16 +279,16 @@ const PlayerDetails = () => {
                 {/* Content */}
                 <Box>
                     <CustomTabPanel value={value} index={0}>
-                        Matches
+                        <TeamMembers members={teamDetails.members} />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={1}>
-                        <PlayerStats playerDetails={playerDetails} />
+                        MATCHES
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={2}>
-                        <TeamsTab teamsPlayedIn={playerDetails.teamsPlayedIn} />
+                        <TeamStats stats={teamDetails.stats} />
                     </CustomTabPanel>
                     <CustomTabPanel value={value} index={3}>
-                        <PlayerProfile playerDetails={playerDetails} />
+                        <TeamProfile teamDetails={teamDetails} />
                     </CustomTabPanel>
                 </Box>
             </Container>
@@ -303,4 +318,4 @@ const PlayerDetails = () => {
     );
 };
 
-export default PlayerDetails;
+export default TeamDetails;

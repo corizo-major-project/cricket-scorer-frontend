@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 // Components
@@ -17,6 +17,21 @@ export default function TopNavbar() {
   const [y, setY] = useState(window.scrollY);
   const [sidebarOpen, toggleSidebar] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", () => setY(window.scrollY));
@@ -32,7 +47,7 @@ export default function TopNavbar() {
       {sidebarOpen && <Backdrop toggleSidebar={toggleSidebar} />}
       <Wrapper className="flexCenter animate whiteBg" style={y > 100 ? { height: "60px" } : { height: "80px" }}>
         <NavInner className="container flexSpaceCenter">
-          <Link className="pointer flexNullCenter" to="/user/" smooth={true}>
+          <Link className="pointer flexNullCenter" to="/user/" smooth="true">
             <img
               src={Logo} // Replace with your image path
               alt="Logo"
@@ -130,16 +145,17 @@ export default function TopNavbar() {
               <ProfileIcon onClick={() => setDropdownOpen(!dropdownOpen)}>
                 <AccountCircleIcon fontSize="large" />
               </ProfileIcon>
+
               {dropdownOpen && (
-                <DropdownMenu>
+                <DropdownMenu ref={dropdownRef}>
                   <p className="user-name">{userName}</p>
-                  <Link to="/user/view-profile" className="profile-link">
+                  <Link to="/user/view-profile" className="profile-link" onClick={() => setDropdownOpen(false)}>
                     Profile
                   </Link>
-                  <Link to="/user/view-profile" className="profile-link">
+                  <Link to="/user/create-team" className="profile-link" onClick={() => setDropdownOpen(false)}>
                     Create Team
                   </Link>
-                  <button className="logout-button" onClick={logout}>
+                  <button className="logout-button" onClick={() => { setDropdownOpen(false); logout(); }}>
                     Logout
                   </button>
                 </DropdownMenu>

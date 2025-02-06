@@ -16,6 +16,9 @@ import PlayerDetails from "./components/players/PlayerDetails";
 import CreatePlayer from "./components/players/CreatePlayer";
 import { jwtDecode } from "jwt-decode";
 import CreateTeam from "./components/team/CreateTeam";
+import Team from "./components/team/Team";
+import TeamDetails from "./components/team/TeamDetails";
+import UpdateTeam from "./components/team/UpdateTeam";
 
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
@@ -61,6 +64,9 @@ function App() {
               <Route path="view-player/:userName/:id/:name/:roleAsBatsman/:roleAsBowler/:location" element={<ProtectedRoute><PlayerDetails /></ProtectedRoute>} />
               <Route path="create-player" element={<ProtectedRoute><CreatePlayer /></ProtectedRoute>} />
               <Route path="create-team" element={<ProtectedRoute><CreateTeam /></ProtectedRoute>} />
+              <Route path="view-teams" element={<ProtectedRoute><Team /></ProtectedRoute>} />
+              <Route path="view-team/:teamName" element={<ProtectedRoute><TeamDetails /></ProtectedRoute>}/>
+              <Route path="update-team" element={<ProtectedRoute><UpdateTeam /></ProtectedRoute>}/>
               <Route path="live-scores" element={<>Home</>} />
               <Route path="host-match" element={<>Home</>} />
               <Route path="contact-us" element={<>Home</>} />

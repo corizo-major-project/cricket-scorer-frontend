@@ -27,7 +27,7 @@ export default function TopNavbar() {
       {sidebarOpen && <Backdrop toggleSidebar={toggleSidebar} />}
       <Wrapper className="flexCenter animate whiteBg" style={y > 100 ? { height: "60px" } : { height: "80px" }}>
         <NavInner className="container flexSpaceCenter">
-          <Link className="pointer flexNullCenter" to="home" smooth={true}>
+          <Link className="pointer flexNullCenter" to="home" smooth="true">
             <img
               src={Logo} // Replace with your image path
               alt="Logo"
@@ -42,22 +42,22 @@ export default function TopNavbar() {
           </BurderWrapper>
           <UlWrapper className="flexNullCenter">
             <li className="semiBold font15 pointer">
-              <Link activeClass="active" style={{ padding: "10px 15px" }} to="home" spy={true} smooth={true} offset={-80}>
+              <Link activeClass="active" style={{ padding: "10px 15px" }} to="home" spy={true} smooth="true" offset={-80}>
                 Home
               </Link>
             </li>
             <li className="semiBold font15 pointer">
-              <Link activeClass="active" style={{ padding: "10px 15px" }} to="services" spy={true} smooth={true} offset={-80}>
+              <Link activeClass="active" style={{ padding: "10px 15px" }} to="services" spy={true} smooth="true" offset={-80}>
                 Services
               </Link>
             </li>
             {/* <li className="semiBold font15 pointer"> */}
-              {/* <Link activeClass="active" style={{ padding: "10px 15px" }} to="blog" spy={true} smooth={true} offset={-80}> */}
+              {/* <Link activeClass="active" style={{ padding: "10px 15px" }} to="blog" spy={true} smooth="true" offset={-80}> */}
                 {/* Blog */}
               {/* </Link> */}
             {/* </li> */}
             <li className="semiBold font15 pointer">
-              <Link activeClass="active" style={{ padding: "10px 15px" }} to="contact" spy={true} smooth={true} offset={-80}>
+              <Link activeClass="active" style={{ padding: "10px 15px" }} to="contact" spy={true} smooth="true" offset={-80}>
                 Contact
               </Link>
             </li>

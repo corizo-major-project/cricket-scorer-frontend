@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { getAllPlayers } from "../../apis/axiosRequest";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import PlayersCard from './PlayersCard';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import { getAllTeams } from '../../apis/axiosRequest';
+import TeamsCard from './TeamsCard';
 
 const defaultTheme = createTheme();
 
-const Player = () => {
+const Team = () => {
     const [pageDetails, setPageDetails] = useState({
         page_size: 10,
         page_no: 1
     });
 
-    const [playersCount, setPlayersCount] = useState(0);
-    const [playersList, setPlayersList] = useState([]);
+    const [teamsCount, setTeamsCount] = useState(0);
+    const [teamsList, setTeamsList] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
 
-    const totalPages = Math.ceil(playersCount / 10);
+    const totalPages = Math.ceil(teamsCount / 10);
 
     // Show "Scroll to Top" button when page is scrolled down 20px
     const handleScroll = () => {
@@ -44,9 +44,9 @@ const Player = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getAllPlayers(pageDetails.page_size, pageDetails.page_no);
-                setPlayersCount(response.data.totalPlayerCount);
-                setPlayersList(response.data.players);
+                const response = await getAllTeams(pageDetails.page_size, pageDetails.page_no);
+                setTeamsCount(response.data.totalTeamCount);
+                setTeamsList(response.data.teams);
             } catch (error) {
                 // Handle errors here...
                 alert("Network or server error occurred. Please check your connection and try again.");
@@ -67,8 +67,8 @@ const Player = () => {
         <ThemeProvider theme={defaultTheme}>
             <CssBaseline />
             <Box sx={{ padding: '20px', paddingTop: '115px',display: 'flex', marginTop: '10px', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f4f2ee' }}>
-                {playersList.length > 0 ? (
-                    <PlayersCard playersList={playersList} />
+                {teamsList.length > 0 ? (
+                    <TeamsCard teamsList={teamsList} />
                 ) : (
                     <p style={{ textAlign: "center" }}>Loading.........</p>
                 )}
@@ -125,4 +125,4 @@ const Player = () => {
     );
 };
 
-export default Player;
+export default Team;

@@ -18,7 +18,7 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
     return (
         <Wrapper className="animate darkBg" sidebarOpen={sidebarOpen}>
             <SidebarHeader className="flexSpaceCenter">
-                <Link className="pointer flexNullCenter" to="/user/" smooth={true} onClick={() => toggleSidebar(!sidebarOpen)}>
+                <Link className="pointer flexNullCenter" to="/user/" smooth="true" onClick={() => toggleSidebar(!sidebarOpen)}>
                     <div className="flexNullCenter">
                         <img
                             src={Logo} // Replace with your image path
@@ -109,6 +109,20 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
                 </li>
                 <li className="semiBold font15 pointer">
                     <NavLink
+                        to="/user/create-team"
+                        onClick={() => toggleSidebar(!sidebarOpen)}
+                        style={({ isActive }) => ({
+                            padding: "10px 15px",
+                            textDecoration: "none",
+                            color: isActive ? "blue" : "white",
+                            borderBottom: isActive ? "2px solid blue" : "none",
+                        })}
+                    >
+                        CREATE TEAM
+                    </NavLink>
+                </li>
+                <li className="semiBold font15 pointer">
+                    <NavLink
                         to="/user/contact-us"
                         onClick={() => toggleSidebar(!sidebarOpen)}
                         style={({ isActive }) => ({
@@ -143,8 +157,8 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
                         style={({ isActive }) => ({
                             padding: "10px 15px",
                             textDecoration: "none",
-                            color: isActive ? "blue" : "white",
-                            borderBottom: isActive ? "2px solid blue" : "none",
+                            color: isActive ? "white" : "white",
+                            borderBottom: isActive ? "2px solid white" : "none",
                         })}
                     >
                         <LogoutIcon fontSize="large" />
@@ -163,6 +177,7 @@ const Wrapper = styled.nav`
   padding: 0 30px;
   right: ${(props) => (props.sidebarOpen ? "0px" : "-400px")};
   z-index: 9999;
+  overflow-y: auto;  /* Enable scrolling */
   @media (max-width: 400px) {
     width: 100%;
   }
@@ -178,8 +193,8 @@ const CloseBtn = styled.button`
   padding: 10px;
 `;
 const UlStyle = styled.ul`
-  padding: 40px;
+  padding: 20px;  /* Reduced padding */
   li {
-    margin: 20px 0;
+    margin: 15px 0;  /* Slightly reduced spacing */
   }
 `;

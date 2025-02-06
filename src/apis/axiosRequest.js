@@ -146,3 +146,49 @@ export const createPlayer = async (playerPayload) => {
         return err;
     }
 }
+
+
+// Team API's
+export const createTeam = async (teamData) => {
+    try {
+        const createTeamurl = url + `/v1/api/team/createTeam`;
+        const response = await API.post(createTeamurl, teamData);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const getAllTeams = async (pageSize, pageNo) => {
+    try {
+        const getAllTeamsurl = url + `/v1/api/team/getAllTeams?page_no=${pageNo}&page_size=${pageSize}`;
+        const response = await API.get(getAllTeamsurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const getTeam = async (teamName) => {
+    try {
+        const getTeamurl = url + `/v1/api/team/getTeam?team_name=${teamName}`;
+        const response = await API.get(getTeamurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const updateTeam = async (oldTeamName, teamData) => {
+    try {
+        const updateTeamurl = url + `/v1/api/team/updateTeam/${oldTeamName}`;
+        const response = await API.put(updateTeamurl, teamData);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}

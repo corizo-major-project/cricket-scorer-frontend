@@ -15,7 +15,7 @@ export default function Contact() {
       <div className="darkBg">
         <div className="container">
           <InnerWrapper className="flexSpaceCenter" style={{ padding: "30px 0" }}>
-            <Link className="flexCenter animate pointer" to="home" smooth={true} offset={-80}>
+            <Link className="flexCenter animate pointer" to="home" smooth="true" offset={-80}>
               <img
                 src={Logo} // Replace with your image path
                 alt="Logo"

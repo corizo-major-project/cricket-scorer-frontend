@@ -15,7 +15,7 @@ export default function Contact() {
       <div className="darkBg">
         <div className="container">
           <InnerWrapper className="flexSpaceCenter" style={{ padding: "30px 0" }}>
-            <Link className="flexCenter animate pointer" to="home" smooth={true} offset={-80}>
+            <Link className="flexCenter animate pointer" to="home" smooth="true" offset={-80}>
               <img
                 src={Logo} // Replace with your image path
                 alt="Logo"
@@ -29,7 +29,7 @@ export default function Contact() {
               © {getCurrentYear()} - <span className="purpleColor font13">Score-Liklo</span> All Right Reserved
             </StyleP>
 
-            <Link className="whiteColor animate pointer font13" to="home" smooth={true} offset={-80}>
+            <Link className="whiteColor animate pointer font13" to="home" smooth="true" offset={-80}>
               Back to top
             </Link>
           </InnerWrapper>
