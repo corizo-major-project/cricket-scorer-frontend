@@ -192,3 +192,48 @@ export const updateTeam = async (oldTeamName, teamData) => {
         return err;
     }
 }
+
+export const getTeamSearch = async (searchQuery) => {
+    try {
+        const getTeamSearchurl = url + `/v1/api/team/searchTeams?search_query=${searchQuery}`;
+        const response = await API.get(getTeamSearchurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const getTeamMembers = async (teamName) => {
+    try {
+        const getTeamMembersurl = url + `/v1/api/team/getMembers/${teamName}`;
+        const response = await API.get(getTeamMembersurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+// Match
+export const createMatch = async (matchForm) => {
+    try {
+        const createMatchurl = url + `/v1/api/match/createMatch`;
+        const response = await API.post(createMatchurl, matchForm);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}
+
+export const fetchMatches = async (matchType) => {
+    try {
+        const fetchMatchesurl = url + `/v1/api/match/fetchMatches/${matchType}`;
+        const response = await API.get(fetchMatchesurl);
+        return response;
+    }
+    catch(err) {
+        return err;
+    }
+}

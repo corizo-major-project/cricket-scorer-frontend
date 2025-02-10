@@ -67,6 +67,20 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
                 </li>
                 <li className="semiBold font15 pointer">
                     <NavLink
+                        to="/user/my-matches"
+                        onClick={() => toggleSidebar(!sidebarOpen)}
+                        style={({ isActive }) => ({
+                            padding: "10px 15px",
+                            textDecoration: "none",
+                            color: isActive ? "blue" : "white",
+                            borderBottom: isActive ? "2px solid blue" : "none",
+                        })}
+                    >
+                        MY MATCHES
+                    </NavLink>
+                </li>
+                <li className="semiBold font15 pointer">
+                    <NavLink
                         to="/user/view-players"
                         onClick={() => toggleSidebar(!sidebarOpen)}
                         style={({ isActive }) => ({
@@ -91,20 +105,6 @@ export default function Sidebar({ sidebarOpen, toggleSidebar }) {
                         })}
                     >
                         TEAMS
-                    </NavLink>
-                </li>
-                <li className="semiBold font15 pointer">
-                    <NavLink
-                        to="/user/my-matches"
-                        onClick={() => toggleSidebar(!sidebarOpen)}
-                        style={({ isActive }) => ({
-                            padding: "10px 15px",
-                            textDecoration: "none",
-                            color: isActive ? "blue" : "white",
-                            borderBottom: isActive ? "2px solid blue" : "none",
-                        })}
-                    >
-                        MY MATCHES
                     </NavLink>
                 </li>
                 <li className="semiBold font15 pointer">

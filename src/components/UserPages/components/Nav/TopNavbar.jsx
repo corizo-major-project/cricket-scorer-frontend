@@ -89,6 +89,19 @@ export default function TopNavbar() {
             </li>
             <li className="semiBold font15 pointer">
               <NavLink
+                to="/user/my-matches"
+                style={({ isActive }) => ({
+                  padding: "10px 15px",
+                  textDecoration: "none",
+                  color: isActive ? "blue" : "inherit",
+                  borderBottom: isActive ? "2px solid blue" : "none",
+                })}
+              >
+                MY MATCHES
+              </NavLink>
+            </li>
+            <li className="semiBold font15 pointer">
+              <NavLink
                 to="/user/view-players"
                 style={({ isActive }) => ({
                   padding: "10px 15px",
@@ -111,19 +124,6 @@ export default function TopNavbar() {
                 })}
               >
                 TEAMS
-              </NavLink>
-            </li>
-            <li className="semiBold font15 pointer">
-              <NavLink
-                to="/user/my-matches"
-                style={({ isActive }) => ({
-                  padding: "10px 15px",
-                  textDecoration: "none",
-                  color: isActive ? "blue" : "inherit",
-                  borderBottom: isActive ? "2px solid blue" : "none",
-                })}
-              >
-                MY MATCHES
               </NavLink>
             </li>
             <li className="semiBold font15 pointer">

@@ -19,6 +19,8 @@ import CreateTeam from "./components/team/CreateTeam";
 import Team from "./components/team/Team";
 import TeamDetails from "./components/team/TeamDetails";
 import UpdateTeam from "./components/team/UpdateTeam";
+import MatchSetup from "./components/hostMatch/MatchSetup";
+import MyMatches from "./components/hostMatch/MyMatches";
 
 export const scroll = new SmoothScroll('a[href*="#"]', {
   speed: 1000,
@@ -67,6 +69,8 @@ function App() {
               <Route path="view-teams" element={<ProtectedRoute><Team /></ProtectedRoute>} />
               <Route path="view-team/:teamName" element={<ProtectedRoute><TeamDetails /></ProtectedRoute>}/>
               <Route path="update-team" element={<ProtectedRoute><UpdateTeam /></ProtectedRoute>}/>
+              <Route path="host-match" element={<ProtectedRoute><MatchSetup /></ProtectedRoute>}/>
+              <Route path="my-matches" element={<ProtectedRoute><MyMatches /></ProtectedRoute>}/>
               <Route path="live-scores" element={<>Home</>} />
               <Route path="host-match" element={<>Home</>} />
               <Route path="contact-us" element={<>Home</>} />
